@@ -1,0 +1,36 @@
+{
+  "name": "react-native-formtastic",
+  "version": "1.0.5",
+  "description": "React Native Custom Form Elements",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+"types": "lib/typescript/index.d.ts",  
+"scripts": {
+    "build": "bob build"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-native": ">=0.73.6 <=0.74.x",
+    "react-native-ui-datepicker": "^2.0.3",
+    "react-native-vector-icons": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.6",
+    "@types/react-native-vector-icons": "^6.4.18",
+    "react-native-builder-bob": "^0.23.2",
+    "typescript": "^5.0.4"
+  },
+  "author": "Websadroit",
+  "license": "MIT",
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": [
+    "react-native",
+    "forms",
+    "input",
+    "datepicker",
+    "styling",
+    "validation"
+  ]
+}
