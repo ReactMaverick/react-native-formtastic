@@ -545,7 +545,11 @@ const FormInput: React.FC<FormInputProps> = ({
                         <Pressable
                             style={
                                 [inputStyle ?? styles.defaultInputStyle,
-                                { justifyContent: 'center', height: 50 },
+                                inputStyle ??
+                                {
+                                    justifyContent: 'center',
+                                    height: 50
+                                },
                                 inputTextColor ? { color: inputTextColor } : {},
                                 error ? { borderColor: colors.error } : {},
                                 leftIcon ? { paddingLeft: 40 } : {},
