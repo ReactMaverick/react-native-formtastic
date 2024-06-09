@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import { StyleProp, TextInputProps, TextProps, ViewProps, ViewStyle } from 'react-native';
 type FormInputProps = {
     mainContainerStyle?: StyleProp<ViewStyle>;
-    textContainerStyle?: object;
+    inputContainerStyle?: object;
     placeholderText?: string;
     placeholderTextColor?: string;
     inputStyle?: object;
@@ -20,7 +20,7 @@ type FormInputProps = {
     labelTextProps?: TextProps;
     requiredTextProps?: TextProps;
     mainContainerViewProps?: ViewProps;
-    textInputContainerViewProps?: ViewProps;
+    inputContainerViewProps?: ViewProps;
     labelTextContainerViewProps?: ViewProps;
     characterLimit?: number;
     showCharacterLimit?: boolean;
@@ -56,10 +56,22 @@ type FormInputProps = {
     disableFutureDates?: boolean;
     disablePastDates?: boolean;
     initialDate?: Date;
+    initialRange?: {
+        startDate: Date | undefined;
+        endDate: Date | undefined;
+    };
+    initialDates?: Date[] | undefined;
     onDateChange?: (date: Date) => void;
     sendDateValue?: (dateValue: string) => void;
+    onDateRangeChange?: (range: {
+        startDate: Date | undefined;
+        endDate: Date | undefined;
+    }) => void;
+    sendDateRangeValues?: (startDateValue: string, endDateValue: string) => void;
+    onDatesChange?: (dates: Date[] | undefined) => void;
+    sendDatesValues?: (datesValues: string[]) => void;
     datePickerBackgroundColor?: string;
-    hideDatePickerCloseButton?: boolean;
+    showDatePickerCloseButton?: boolean;
     datePickerCloseButtonColor?: string;
     datePickerMode?: 'single' | 'range' | 'multiple';
     selectedItemColor?: string;
@@ -68,6 +80,10 @@ type FormInputProps = {
     headerTextContainerStyle?: object;
     datePlaceholder?: string;
     datePickerAnimationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
+    animationDuration?: number;
+    hideDatePickerConfirmButton?: boolean;
+    dateFormat?: string;
+    dateTimeFormat?: string;
 };
 declare const FormInput: React.FC<FormInputProps>;
 export default FormInput;

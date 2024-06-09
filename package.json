@@ -1,11 +1,11 @@
 {
   "name": "react-native-formtastic",
-  "version": "1.0.8",
+  "version": "1.3.0",
   "description": "React Native Custom Form Elements",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
-"types": "lib/typescript/index.d.ts",  
-"scripts": {
+  "types": "lib/typescript/index.d.ts",
+  "scripts": {
     "build": "bob build"
   },
   "peerDependencies": {
@@ -31,6 +31,27 @@
     "input",
     "datepicker",
     "styling",
-    "validation"
+    "validation",
+    "custom-validation",
+    "error-handling",
+    "date-selection",
+    "range-selection",
+    "multi-selection",
+    "customizable",
+    "form-controls",
+    "user-input",
+    "react-native-datepicker",
+    "react-native-forms",
+    "react-native-input",
+    "react-native-validation",
+    "react-native-styling",
+    "react-native-components",
+    "form-validation",
+    "date-picker",
+    "time-picker",
+    "date-time-picker",
+    "react-native-date-picker",
+    "react-native-time-picker",
+    "react-native-date-time-picker"
   ]
 }

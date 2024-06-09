@@ -1,20 +1,30 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { Animated, Modal, Pressable, StyleProp, Text, TextInput, TextInputProps, TextProps, View, ViewProps, ViewStyle } from 'react-native';
 import { colors, screenHeight, screenWidth, styles } from './utils';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
 
 type DatePickerModalProps = {
-    date: Date;
-    setDate: (date: Date) => void;
+    date?: Date | undefined;
+    setDate?: (date: Date) => void;
+    range: {
+        startDate: Date | undefined;
+        endDate: Date | undefined;
+    };
+    setRange: (range: { startDate: Date | undefined; endDate: Date | undefined; }) => void;
+    dates: Date[] | undefined;
+    setDates: (dates: Date[] | undefined) => void;
     datePickerWithTime?: boolean;
     showDatePicker?: boolean;
     setShowDatePicker: (showDatePicker: boolean) => void;
     disableFutureDates?: boolean;
     disablePastDates?: boolean;
     onDateChange?: (date: Date) => void;
+    onDateRangeChange?: (range: { startDate: Date | undefined; endDate: Date | undefined; }) => void;
+    onDatesChange?: (dates: Date[] | undefined) => void;
     datePickerBackgroundColor?: string;
-    hideDatePickerCloseButton?: boolean;
+    showDatePickerCloseButton?: boolean;
     datePickerCloseButtonColor?: string;
     datePickerMode?: 'single' | 'range' | 'multiple';
     selectedItemColor?: string;
@@ -23,27 +33,37 @@ type DatePickerModalProps = {
     headerTextContainerStyle?: object;
     setShowDatePlaceholder?: (showDatePlaceholder: boolean) => void;
     animationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
+    animationDuration?: number;
+    hideConfirmButton?: boolean;
 };
 
 const DatePickerModal: React.FC<DatePickerModalProps> = ({
     date,
     setDate,
+    range,
+    setRange,
+    dates,
+    setDates,
     datePickerWithTime,
     showDatePicker,
     setShowDatePicker,
     disableFutureDates,
     disablePastDates,
     onDateChange,
+    onDateRangeChange,
+    onDatesChange,
     datePickerBackgroundColor,
-    hideDatePickerCloseButton,
+    showDatePickerCloseButton = false,
     datePickerCloseButtonColor,
-    datePickerMode,
+    datePickerMode = 'single',
     selectedItemColor,
     selectedTextStyle,
     firstDayOfWeek,
     headerTextContainerStyle,
     setShowDatePlaceholder,
     animationType,
+    animationDuration,
+    hideConfirmButton,
 }) => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -52,7 +72,16 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
     const [selectedDate, setSelectedDate] = useState(date);
 
+    const [selectedRange, setSelectedRange] = useState(range);
+
+    const [selectedDates, setSelectedDates] = useState(dates);
+
     // console.log("Selected date ==> ", date, typeof date);
+
+    // console.log("Selected range ==> ", selectedRange);
+
+    // console.log("Selected dates ==> ", selectedDates);
+
 
     const getScaleAnimation = () => {
         switch (animationType) {
@@ -120,14 +149,30 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         outputRange: [1, 0],
     });
 
-    const handleDateChange = (newDate: Date) => {
+    const onChangeDate = useCallback(
+        (params: any) => {
+            // console.log("Params ==> ", params);
 
-        // console.log("New date ==> ", newDate);
+            setShowDatePlaceholder && setShowDatePlaceholder(false);
 
-        setSelectedDate(newDate);
-        setDate(newDate);
-        onDateChange && onDateChange(newDate);
-    }
+            if (!params) return;
+
+            if (datePickerMode === 'single' && setDate) {
+                setSelectedDate(params.date);
+                setDate && setDate(params.date);
+                onDateChange && onDateChange(params.date);
+            } else if (datePickerMode === 'range' && setRange) {
+                setSelectedRange(params);
+                setRange && setRange(params);
+                onDateRangeChange && onDateRangeChange(params);
+            } else if (datePickerMode === 'multiple' && setDates) {
+                setSelectedDates(params.dates);
+                setDates(params.dates);
+                onDatesChange && onDatesChange(params.dates);
+            }
+        },
+        [datePickerMode]
+    );
 
     const leftButtonIcon = () => {
         return (
@@ -149,7 +194,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         setIsModalVisible(true);
         Animated.timing(modalPosition, {
             toValue: 0,
-            duration: 500,
+            duration: animationDuration, // Custom Animation Duration or 400
             useNativeDriver: true,
         }).start();
     };
@@ -157,7 +202,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     const closeModal = () => {
         Animated.timing(modalPosition, {
             toValue: 1,
-            duration: 500,
+            duration: animationDuration, // Custom Animation Duration or 400
             useNativeDriver: true,
         }).start(() => {
             setIsModalVisible(false);
@@ -218,7 +263,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                                     e.stopPropagation();
                                 }}
                             >
-                                {!hideDatePickerCloseButton &&
+                                {showDatePickerCloseButton &&
                                     <Pressable
                                         style={[styles.datePickerModalCloseButton,
                                         { backgroundColor: datePickerCloseButtonColor ?? colors.reddishOrange }
@@ -229,33 +274,14 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                                     </Pressable>
                                 }
                                 <DateTimePicker
-                                    mode='single'
+                                    mode={datePickerMode ?? 'single'}
                                     date={selectedDate}
+                                    startDate={selectedRange.startDate}
+                                    endDate={selectedRange.endDate}
+                                    dates={selectedDates}
                                     timePicker={datePickerWithTime}
-                                    onChange={(params) => {
-                                        // console.log("Params ==> ", typeof params, params);
-                                        // console.log("Params date ==> ", params.date, typeof (params.date));
-
-                                        setShowDatePlaceholder && setShowDatePlaceholder(false);
-
-                                        if (params.date && typeof params.date === 'object') {
-                                            let dateObject;
-
-                                            if ('toDate' in params.date) { // Check if it's a Dayjs object
-                                                dateObject = params.date.toDate(); // Convert to native Date object
-                                            } else {
-                                                dateObject = new Date(params.date);
-                                            }
-
-                                            // console.log("Date object ==> ", dateObject);
-
-                                            handleDateChange(dateObject);
-                                        } else if (typeof params.date === 'string' || typeof params.date === 'number') {
-                                            // Convert string or number to Date
-                                            const dateObject = new Date(params.date);
-                                            handleDateChange(dateObject);
-                                        }
-                                    }}
+                                    displayFullDays={true} // Display Previous and Next Month Days in the Calendar
+                                    onChange={onChangeDate}
                                     timePickerContainerStyle={styles.timePickerContainerStyleCustom}
                                     weekDaysContainerStyle={styles.weekDaysContainerStyleCustom}
                                     weekDaysTextStyle={styles.weekDaysTextStyleCustom}
@@ -274,6 +300,16 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                                     headerTextContainerStyle={headerTextContainerStyle ?? styles.headerTextContainerStyleCustom}
                                 />
 
+                                {!hideConfirmButton &&
+                                    <Pressable
+                                        style={styles.datePickerConfirmButton}
+                                        onPress={() => closeModal()}
+                                    >
+                                        <Text style={styles.datePickerConfirmButtonText}>Confirm</Text>
+                                    </Pressable>
+                                }
+
+
                             </Pressable>
                         </Animated.View>
                     </Pressable>
@@ -285,7 +321,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
 type FormInputProps = {
     mainContainerStyle?: StyleProp<ViewStyle>;
-    textContainerStyle?: object;
+    inputContainerStyle?: object;
     placeholderText?: string;
     placeholderTextColor?: string;
     inputStyle?: object;
@@ -303,7 +339,7 @@ type FormInputProps = {
     labelTextProps?: TextProps;
     requiredTextProps?: TextProps;
     mainContainerViewProps?: ViewProps;
-    textInputContainerViewProps?: ViewProps;
+    inputContainerViewProps?: ViewProps;
     labelTextContainerViewProps?: ViewProps;
     characterLimit?: number;
     showCharacterLimit?: boolean;
@@ -334,10 +370,16 @@ type FormInputProps = {
     disableFutureDates?: boolean;
     disablePastDates?: boolean;
     initialDate?: Date;
+    initialRange?: { startDate: Date | undefined; endDate: Date | undefined; };
+    initialDates?: Date[] | undefined;
     onDateChange?: (date: Date) => void;
     sendDateValue?: (dateValue: string) => void;
+    onDateRangeChange?: (range: { startDate: Date | undefined; endDate: Date | undefined; }) => void;
+    sendDateRangeValues?: (startDateValue: string, endDateValue: string) => void;
+    onDatesChange?: (dates: Date[] | undefined) => void;
+    sendDatesValues?: (datesValues: string[]) => void;
     datePickerBackgroundColor?: string;
-    hideDatePickerCloseButton?: boolean;
+    showDatePickerCloseButton?: boolean;
     datePickerCloseButtonColor?: string;
     datePickerMode?: 'single' | 'range' | 'multiple';
     selectedItemColor?: string;
@@ -346,12 +388,16 @@ type FormInputProps = {
     headerTextContainerStyle?: object;
     datePlaceholder?: string;
     datePickerAnimationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
+    animationDuration?: number;
+    hideDatePickerConfirmButton?: boolean;
+    dateFormat?: string;
+    dateTimeFormat?: string;
     // Date Picker Props
 };
 
 const FormInput: React.FC<FormInputProps> = ({
     mainContainerStyle,
-    textContainerStyle,
+    inputContainerStyle,
     placeholderText,
     placeholderTextColor,
     inputStyle,
@@ -369,7 +415,7 @@ const FormInput: React.FC<FormInputProps> = ({
     labelTextProps,
     requiredTextProps,
     mainContainerViewProps,
-    textInputContainerViewProps,
+    inputContainerViewProps,
     labelTextContainerViewProps,
     characterLimit,
     showCharacterLimit,
@@ -400,10 +446,16 @@ const FormInput: React.FC<FormInputProps> = ({
     disableFutureDates,
     disablePastDates,
     initialDate,
+    initialRange,
+    initialDates,
     onDateChange,
     sendDateValue,
+    onDateRangeChange,
+    sendDateRangeValues,
+    onDatesChange,
+    sendDatesValues,
     datePickerBackgroundColor,
-    hideDatePickerCloseButton,
+    showDatePickerCloseButton,
     datePickerCloseButtonColor,
     datePickerMode,
     selectedItemColor,
@@ -412,12 +464,28 @@ const FormInput: React.FC<FormInputProps> = ({
     headerTextContainerStyle,
     datePlaceholder,
     datePickerAnimationType,
+    animationDuration,
+    hideDatePickerConfirmButton,
+    dateFormat,
+    dateTimeFormat,
     // Date Picker Props
 }) => {
 
     const [inputValue, setInputValue] = useState<string>('');
 
-    const [date, setDate] = useState<Date>(initialDate ?? new Date());
+    // For Single Date //
+    const [date, setDate] = useState<Date | undefined>(initialDate ?? undefined);
+
+    // For Date Range //
+    const [range, setRange] = useState<{
+        startDate: Date | undefined;
+        endDate: Date | undefined;
+    }>({ startDate: initialRange?.startDate ?? undefined, endDate: initialRange?.endDate ?? undefined });
+
+    // For Multiple Dates //
+    const [dates, setDates] = useState<Date[] | undefined>(initialDates ?? undefined);
+
+    const [showAllDates, setShowAllDates] = useState(false);
 
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
@@ -435,10 +503,34 @@ const FormInput: React.FC<FormInputProps> = ({
     }, [datePlaceholder]);
 
     useEffect(() => {
-        if (datePicker && sendDateValue) {
-            datePickerWithTime ? sendDateValue(date.toLocaleString().replace(/am|pm/i, match => match.toUpperCase())) : (date instanceof Date ? sendDateValue(date.toLocaleDateString()) : sendDateValue(date))
+        if (datePicker && sendDateValue && date) {
+            // console.log("Date ==> ", date, typeof date);
+
+            // console.log("Date in FormInput ==> ", dayjs(date).format('YYYY-MM-DD '));
+
+            datePickerWithTime ? sendDateValue(dayjs(date).format(dateTimeFormat ?? 'DD-MM-YYYY hh:mm:ss A')) : sendDateValue(dayjs(date).format(dateFormat ?? 'DD-MM-YYYY'));
         }
     }, [date]);
+
+    useEffect(() => {
+        if (datePicker && sendDateRangeValues && range.startDate && range.endDate) {
+            // console.log("Range ==> ", range);
+
+            sendDateRangeValues(dayjs(range.startDate).format(dateFormat ?? 'DD-MM-YYYY'), dayjs(range.endDate).format(dateFormat ?? 'DD-MM-YYYY'));
+        }
+    }, [range]);
+
+    useEffect(() => {
+        if (datePicker && sendDatesValues && dates) {
+            // console.log("Dates ==> ", dates);
+
+            sendDatesValues(dates.map(date => dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')));
+        }
+    }, [dates]);
+
+    // console.log('Range ==> ', range);
+
+    // console.log('Dates ==> ', dates);
 
     return (
         <View
@@ -451,22 +543,30 @@ const FormInput: React.FC<FormInputProps> = ({
                 <DatePickerModal
                     date={date}
                     setDate={setDate}
+                    range={range}
+                    setRange={setRange}
+                    dates={dates}
+                    setDates={setDates}
                     onDateChange={onDateChange}
+                    onDateRangeChange={onDateRangeChange}
+                    onDatesChange={onDatesChange}
                     datePickerWithTime={datePickerWithTime}
                     showDatePicker={showDatePicker}
                     setShowDatePicker={setShowDatePicker}
                     disableFutureDates={disableFutureDates}
                     disablePastDates={disablePastDates}
                     datePickerBackgroundColor={datePickerBackgroundColor}
-                    hideDatePickerCloseButton={hideDatePickerCloseButton}
+                    showDatePickerCloseButton={showDatePickerCloseButton}
                     datePickerCloseButtonColor={datePickerCloseButtonColor}
-                    // datePickerMode={datePickerMode} Have to do this later
+                    datePickerMode={datePickerMode}
                     selectedItemColor={selectedItemColor}
                     selectedTextStyle={selectedTextStyle}
                     firstDayOfWeek={firstDayOfWeek}
                     headerTextContainerStyle={headerTextContainerStyle}
                     setShowDatePlaceholder={setShowDatePlaceholder}
                     animationType={datePickerAnimationType ?? 'zoomIn'}
+                    animationDuration={animationDuration ?? 400}
+                    hideConfirmButton={hideDatePickerConfirmButton}
                 />
             }
             {!hideLabel &&
@@ -504,12 +604,12 @@ const FormInput: React.FC<FormInputProps> = ({
             }
             <View
                 style={
-                    textContainerStyle ?? [styles.defaultTextContainerStyle,
-                    !characterLimit && { borderBottomStartRadius: 10, borderBottomEndRadius: 10 },
+                    inputContainerStyle ?? [styles.defaultInputContainerStyle,
+                    !showCharacterLimit && { borderBottomStartRadius: 10, borderBottomEndRadius: 10 },
                     error && { backgroundColor: colors.lightError }
                     ]
                 }
-                {...textInputContainerViewProps}
+                {...inputContainerViewProps}
             >
                 {leftIcon &&
                     <Pressable
@@ -560,7 +660,27 @@ const FormInput: React.FC<FormInputProps> = ({
                         >
                             {showDatePlaceholder && datePlaceholder ?
                                 <Text>{datePlaceholder}</Text> :
-                                <Text>{(datePickerWithTime ? date.toLocaleString().replace(/am|pm/i, match => match.toUpperCase()) : (date instanceof Date ? date.toLocaleDateString() : date))}</Text>
+                                date ?
+                                    (<Text>{datePickerWithTime ? dayjs(date).format(dateTimeFormat ?? 'DD-MM-YYYY hh:mm:ss A') : dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}</Text>) :
+                                    range && range.startDate && range.endDate ?
+                                        (<Text>{`${dayjs(range.startDate).format(dateFormat ?? 'DD-MM-YYYY')} - ${dayjs(range.endDate).format(dateFormat ?? 'DD-MM-YYYY')}`}</Text>) :
+                                        dates && dates.length ?
+                                            (
+                                                <View
+                                                    style={{
+                                                        flexDirection: 'row',
+                                                        flexWrap: 'wrap',
+                                                        justifyContent: 'flex-start',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    {dates.slice(0, 3).map((date, index) => (
+                                                        <Text key={index}>
+                                                            {`${dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}${index < dates.length - 1 && index < 2 ? ', ' : index === 2 ? '...' : ''}`}
+                                                        </Text>
+                                                    ))}
+                                                </View>
+                                            ) : null
                             }
                         </Pressable>
                     </View>

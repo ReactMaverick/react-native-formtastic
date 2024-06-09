@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
         padding: 10,
         width: '100%',
     },
-    defaultTextContainerStyle: {
+    defaultInputContainerStyle: {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 3,
@@ -134,7 +134,7 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
     },
     datePickerModalLeftRightButtonIconOuter: {
-        backgroundColor: colors.lightGrey,
+        backgroundColor: colors.grey,
         paddingVertical: 5,
         paddingHorizontal: 12,
         borderRadius: 50,
@@ -158,5 +158,14 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
     },
+    datePickerConfirmButton: {
+        backgroundColor: colors.lightGreen,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    datePickerConfirmButtonText: {
+        color: colors.white,
+        fontWeight: '700',
+    },
 });
-

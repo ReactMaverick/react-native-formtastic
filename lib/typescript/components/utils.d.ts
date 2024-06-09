@@ -33,7 +33,7 @@ export declare const styles: {
         padding: number;
         width: "100%";
     };
-    defaultTextContainerStyle: {
+    defaultInputContainerStyle: {
         justifyContent: "center";
         alignItems: "center";
         padding: number;
@@ -152,6 +152,16 @@ export declare const styles: {
         backgroundColor: string;
         borderRadius: number;
         paddingHorizontal: number;
+    };
+    datePickerConfirmButton: {
+        backgroundColor: string;
+        paddingVertical: number;
+        paddingHorizontal: number;
+        borderRadius: number;
+    };
+    datePickerConfirmButtonText: {
+        color: string;
+        fontWeight: "700";
     };
 };
 //# sourceMappingURL=utils.d.ts.map
