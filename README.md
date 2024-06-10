@@ -2,7 +2,7 @@
 
 The `FormInput` is a custom, reusable input component for React-Native applications. It supports both text input and date picker functionality. This component utilizes the `TextInput` component from React Native and the `react-native-ui-datepicker` for date picking functionality.
 
-▶️ [View Live on Expo Snack](https://snack.expo.dev/@priyam.websadroit/react-native-formtastic) ▶️
+▶️ [View Live on Expo Snack](https://snack.expo.dev/@priyam.websadroit/react-native-formtastic?platform=android) ▶️
 
 - [Usage](#usage)
 - [Reference Image](#reference-image)
@@ -46,7 +46,7 @@ export default App;
 
 ## Reference Image
 
-  ![Screenshot of FormInput Component](https://i.ibb.co/JnkW0SY/form-Input-component.png "FormInput Component")
+![Screenshot of FormInput Component](https://i.ibb.co/JnkW0SY/form-Input-component.png "FormInput Component")
 
 ## DatePicker Usage
 
@@ -92,8 +92,8 @@ export default App;
 
   const App = () => {
     type DateRange = {
-    startDate: Date;
-    endDate: Date;
+      startDate: Date;
+      endDate: Date;
     };
 
     const [checkInOutDateRange, setCheckInOutDateRange] = useState<DateRange>({
@@ -106,10 +106,11 @@ export default App;
       endDate: string;
     };
 
-    const [checkInOutDateRangeValue, setCheckInOutDateRangeValue] = useState<DateRangeValues>({
-      startDate: '',
-      endDate: '',
-    });
+    const [checkInOutDateRangeValue, setCheckInOutDateRangeValue] =
+      useState<DateRangeValues>({
+        startDate: "",
+        endDate: "",
+      });
 
     return (
       <FormInput
@@ -121,20 +122,20 @@ export default App;
         datePlaceholder="Select Check In & Check Out Dates"
         datePickerMode="range" // Required
         onDateRangeChange={({ startDate, endDate }) => {
-            if (startDate && endDate) {
-                setCheckInOutDateRange({
-                  startDate: startDate,
-                  endDate: endDate,
-                });
-              }
+          if (startDate && endDate) {
+            setCheckInOutDateRange({
+              startDate: startDate,
+              endDate: endDate,
+            });
+          }
         }}
         sendDateRangeValues={(startDate, endDate) => {
-            if (startDate && endDate) {
-                setCheckInOutDateRangeValue({
-                  startDate: startDate,
-                  endDate: endDate,
-                });
-              }
+          if (startDate && endDate) {
+            setCheckInOutDateRangeValue({
+              startDate: startDate,
+              endDate: endDate,
+            });
+          }
         }}
       />
     );
@@ -164,9 +165,9 @@ export default App;
         datePlaceholder="Select Meeting Dates"
         datePickerMode="multiple" // Required
         onDatesChange={(dates) => {
-              if (dates) {
-                setMeetingDates(dates);
-              }
+          if (dates) {
+            setMeetingDates(dates);
+          }
         }}
         sendDatesValues={(dates) => {
           if (dates) {
@@ -206,7 +207,8 @@ export default App;
 
 The component accepts the following props (Important & useful props are shown first and are in bold) [All props are optional]:
 
-- **`value`**: Value of the input field. 
+- **`value`**: Value of the input field.
+
   - Usage:
 
     ```tsx
@@ -218,6 +220,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - **`onTextChange`**: Function to call when the text changes.
+
   - Usage:
 
     ```tsx
@@ -229,6 +232,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - **`labelText`**: Text for the label.
+
   - Usage:
 
     ```tsx
@@ -237,9 +241,10 @@ The component accepts the following props (Important & useful props are shown fi
       labelText="Name"
       //... Other Props
     />
-    ```  
+    ```
 
 - **`isRequired`**: Boolean to mark the input as required.
+
   - Usage:
 
     ```tsx
@@ -248,9 +253,10 @@ The component accepts the following props (Important & useful props are shown fi
       isRequired={true}
       //... Other Props
     />
-    ```  
+    ```
 
 - **`inputType`**: Type of input (e.g., 'default', 'numeric', 'email-address').
+
   - Usage:
 
     ```tsx
@@ -262,6 +268,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - **`error`**: Boolean to indicate an error state.
+
   - Usage:
 
     ```tsx
@@ -273,6 +280,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - **`errorText`**: Text to display below input when there is an error.
+
   - Usage:
 
     ```tsx
@@ -284,6 +292,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `mainContainerStyle`: Style object for the outermost main container.
+
   - Usage:
 
     ```tsx
@@ -295,6 +304,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `inputContainerStyle`: Style object for the input container.
+
   - Usage:
 
     ```tsx
@@ -306,6 +316,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `placeholderText`: Placeholder text for the input field.
+
   - Usage:
 
     ```tsx
@@ -317,6 +328,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `placeholderTextColor`: Color of the placeholder text.
+
   - Usage:
 
     ```tsx
@@ -328,6 +340,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `inputStyle`: Style object for the input field.
+
   - Usage:
 
     ```tsx
@@ -339,6 +352,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `inputTextColor`: Color of the input text.
+
   - Usage:
 
     ```tsx
@@ -350,6 +364,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `hideLabel`: Boolean to hide the label.
+
   - Usage:
 
     ```tsx
@@ -361,6 +376,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `labelTextStyle`: Style object for the label text.
+
   - Usage:
 
     ```tsx
@@ -372,6 +388,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `labelTextContainerStyle`: Style object for the label text container.
+
   - Usage:
 
     ```tsx
@@ -383,6 +400,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `requiredText`: Text to display instead of '\*' when the input is required.
+
   - Usage:
 
     ```tsx
@@ -394,6 +412,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `requiredTextStyle`: Style object for the required text.
+
   - Usage:
 
     ```tsx
@@ -405,6 +424,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `requiredTextColor`: Color of the required text.
+
   - Usage:
 
     ```tsx
@@ -416,6 +436,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `labelTextColor`: Color of the label text.
+
   - Usage:
 
     ```tsx
@@ -427,6 +448,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `textInputProps`: Additional props for the TextInput component.
+
   - Usage:
 
     ```tsx
@@ -438,6 +460,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `labelTextProps`: Additional props for the label text.
+
   - Usage:
 
     ```tsx
@@ -449,6 +472,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `requiredTextProps`: Additional props for the required text.
+
   - Usage:
 
     ```tsx
@@ -460,6 +484,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `mainContainerViewProps`: Additional props for the main container view.
+
   - Usage:
 
     ```tsx
@@ -471,6 +496,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `inputContainerViewProps`: Additional props for the text input container view.
+
   - Usage:
 
     ```tsx
@@ -482,17 +508,21 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `labelTextContainerViewProps`: Additional props for the label text container view.
+
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
-      labelTextContainerViewProps={{ accessibilityLabel: "label text container" }}
+      labelTextContainerViewProps={{
+        accessibilityLabel: "label text container",
+      }}
       //... Other Props
     />
     ```
 
 - `characterLimit`: Maximum number of characters allowed in the input.
+
   - Usage:
 
     ```tsx
@@ -504,6 +534,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `showCharacterLimit`: Boolean to show the character limit below input field.
+
   - Usage:
 
     ```tsx
@@ -515,6 +546,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `autoCapitalize`: How to auto capitalize the input (e.g., 'none', 'sentences', 'words', 'characters').
+
   - Usage:
 
     ```tsx
@@ -526,6 +558,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `errorTextStyle`: Style object for the error text.
+
   - Usage:
 
     ```tsx
@@ -537,6 +570,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `leftIcon`: Name of the left icon (Icon used: react-native-vector-icons/FontAwesome).
+
   - Usage:
 
     ```tsx
@@ -548,6 +582,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `leftIconColor`: Color of the left icon.
+
   - Usage:
 
     ```tsx
@@ -559,6 +594,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `leftIconStyle`: Style object for the left icon.
+
   - Usage:
 
     ```tsx
@@ -570,6 +606,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `leftIconContainerStyle`: Style object for the left icon container.
+
   - Usage:
 
     ```tsx
@@ -581,6 +618,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `renderLeftIcon`: Function to render a custom left icon.
+
   - Usage:
 
     ```tsx
@@ -594,6 +632,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `leftIconOnPress`: Function to call when the left icon is pressed.
+
   - Usage:
 
     ```tsx
@@ -605,6 +644,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `rightIcon`: Name of the right icon (Icon used: react-native-vector-icons/FontAwesome).
+
   - Usage:
 
     ```tsx
@@ -616,6 +656,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `rightIconColor`: Color of the right icon.
+
   - Usage:
 
     ```tsx
@@ -627,6 +668,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `rightIconStyle`: Style object for the right icon.
+
   - Usage:
 
     ```tsx
@@ -638,6 +680,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `rightIconContainerStyle`: Style object for the right icon container.
+
   - Usage:
 
     ```tsx
@@ -649,6 +692,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `renderRightIcon`: Function to render a custom right icon.
+
   - Usage:
 
     ```tsx
@@ -662,6 +706,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `rightIconOnPress`: Function to call when the right icon is pressed.
+
   - Usage:
 
     ```tsx
@@ -673,6 +718,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `hiddenText`: Boolean to hide the text input (for password fields).
+
   - Usage:
 
     ```tsx
@@ -684,6 +730,7 @@ The component accepts the following props (Important & useful props are shown fi
     ```
 
 - `disabled`: Boolean to disable the input field.
+
   - Usage:
 
     ```tsx
@@ -698,7 +745,8 @@ The component accepts the following props (Important & useful props are shown fi
 
 These are the date picker props (Important & useful props are shown first and are in bold) [All props are optional. ***For datepicker to work, you need to give the datepicker prop.***]:
 
-- ***`datePicker`***: Boolean to enable the date picker functionality.
+- **_`datePicker`_**: Boolean to enable the date picker functionality.
+
   - Usage:
 
     ```tsx
@@ -710,6 +758,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`datePickerWithTime`**: Boolean to include time in the date picker. **It will only work in datePickerMode="single"**.
+
   - Usage:
 
     ```tsx
@@ -721,17 +770,19 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`datePickerMode`**: Mode of the date picker (e.g., 'single', 'range', 'multiple').
+
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
-      datePickerMode='multiple' // Default is single
+      datePickerMode="multiple" // Default is single
       //... Other Props
     />
     ```
 
 - **`initialDate`**: Initial date for the date picker. (For datePickeMode: **single**)
+
   - Usage:
 
     ```tsx
@@ -743,6 +794,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`initialRange`**: Initial date range for the date picker. (For datePickeMode: **range**)
+
   - Usage:
 
     ```tsx
@@ -758,6 +810,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`initialDates`**: Initial dates for the date picker. (For datePickeMode: **multiple**)
+
   - Usage:
 
     ```tsx
@@ -769,10 +822,11 @@ These are the date picker props (Important & useful props are shown first and ar
       //.... Other Props
       initialDates={[date_1, date_2, date_3]}
       //... Other Props
-    />
+    />;
     ```
 
 - **`onDateChange`**: Function to call when the date changes. (For datePickeMode: **single**)
+
   - Usage:
 
     ```tsx
@@ -784,6 +838,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`sendDateValue`**: Function to call with the selected date value. (For datePickeMode: **single**)
+
   - Usage:
 
     ```tsx
@@ -795,34 +850,37 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`onDateRangeChange`**: Function to call when the date range changes. (For datePickeMode: **range**)
+
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
       onDateRangeChange={({ startDate, endDate }) => {
-                console.log('Start Date: ', startDate);
-                console.log('End Date: ', endDate);
-              }} // You will get the Date Objects in 'startDate' and 'endDate' variables
+        console.log("Start Date: ", startDate);
+        console.log("End Date: ", endDate);
+      }} // You will get the Date Objects in 'startDate' and 'endDate' variables
       //... Other Props
     />
     ```
 
 - **`sendDateRangeValues`**: Function to call with the selected date range values. (For datePickeMode: **range**)
+
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
       sendDateRangeValues={(startDate, endDate) => {
-                console.log('Start Date: ', startDate);
-                console.log('End Date: ', endDate);
-              }} // You will get date values as strings in 'DD-MM-YYYY' format or any other format you specified in dateFormat prop
+        console.log("Start Date: ", startDate);
+        console.log("End Date: ", endDate);
+      }} // You will get date values as strings in 'DD-MM-YYYY' format or any other format you specified in dateFormat prop
       //... Other Props
     />
     ```
 
 - **`onDatesChange`**: Function to call when the dates change. (For datePickeMode: **multiple**)
+
   - Usage:
 
     ```tsx
@@ -834,6 +892,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`sendDatesValues`**: Function to call with the selected dates values. (For datePickeMode: **multiple**)
+
   - Usage:
 
     ```tsx
@@ -845,6 +904,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - **`datePlaceholder`**: Placeholder text for the date picker. (If you don't give this prop, the selected date will show.)
+
   - Usage:
 
     ```tsx
@@ -856,6 +916,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `disableFutureDates`: Boolean to disable future dates in the date picker.
+
   - Usage:
 
     ```tsx
@@ -867,6 +928,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `disablePastDates`: Boolean to disable past dates in the date picker.
+
   - Usage:
 
     ```tsx
@@ -878,6 +940,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `datePickerBackgroundColor`: Background color for the date picker.
+
   - Usage:
 
     ```tsx
@@ -889,6 +952,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `showDatePickerCloseButton`: Boolean to show the close button in the date picker.
+
   - Usage:
 
     ```tsx
@@ -900,6 +964,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `datePickerCloseButtonColor`: Color of the close button in the date picker.
+
   - Usage:
 
     ```tsx
@@ -911,6 +976,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `selectedItemColor`: Color of the selected item in the date picker.
+
   - Usage:
 
     ```tsx
@@ -922,17 +988,19 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `selectedTextStyle`: Style object for the selected text in the date picker.
+
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
-      selectedTextStyle={{fontWeight: '400'}}
+      selectedTextStyle={{ fontWeight: "400" }}
       //... Other Props
     />
     ```
 
 - `firstDayOfWeek`: First day of the week in the date picker.
+
   - Usage:
 
     ```tsx
@@ -944,17 +1012,19 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `headerTextContainerStyle`: Style object for the header text container in the date picker.
+
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
-      headerTextContainerStyle={{borderRadius: 5}}
+      headerTextContainerStyle={{ borderRadius: 5 }}
       //... Other Props
     />
     ```
 
 - `datePickerAnimationType`: Animation type for the date picker (e.g., 'zoomIn', 'slideUp', 'slideDown', slideLeft', 'slideRight', 'none').
+
   - Usage:
 
     ```tsx
@@ -966,6 +1036,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `animationDuration`: Custom animation duration for the transition of date picker modal.
+
   - Usage:
 
     ```tsx
@@ -977,6 +1048,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `hideDatePickerConfirmButton`: Boolean to hide the date picker confirm button.
+
   - Usage:
 
     ```tsx
@@ -988,6 +1060,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `dateFormat`: Custom format for the date / date range / dates.
+
   - Usage:
 
     ```tsx
@@ -999,6 +1072,7 @@ These are the date picker props (Important & useful props are shown first and ar
     ```
 
 - `dateTimeFormat`: Custom format for the date and time for single date if datePickerWithTime is selected.
+
   - Usage:
 
     ```tsx

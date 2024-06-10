@@ -1,12 +1,16 @@
 {
   "name": "react-native-formtastic",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "React Native Custom Form Elements",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "types": "lib/typescript/index.d.ts",
   "scripts": {
     "build": "bob build"
+  },
+   "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReactMaverick/react-native-formtastic.git"
   },
   "peerDependencies": {
     "react": "^18.2.0",
