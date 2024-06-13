@@ -10,6 +10,7 @@ The `FormInput` is a custom, reusable input component for React-Native applicati
 - [Reference Image (Date Picker)](#reference-image-date-picker)
 - [Props](#props)
 - [Date Picker Props](#date-picker-props)
+- [Changelog](#changelog)
 
 ## Usage
 
@@ -311,6 +312,18 @@ The component accepts the following props (Important & useful props are shown fi
     <FormInput
       //.... Other Props
       inputContainerStyle={{ justifyContent: "center" }}
+      //... Other Props
+    />
+    ```
+
+- `inputContainerBackgroundColor`: Color of the input container background.
+
+  - Usage:
+
+    ```tsx
+    <FormInput
+      //.... Other Props
+      inputContainerBackgroundColor='transparent'
       //... Other Props
     />
     ```
@@ -729,14 +742,14 @@ The component accepts the following props (Important & useful props are shown fi
     />
     ```
 
-- `disabled`: Boolean to disable the input field.
+- `disabled`: Boolean to disable the input field and the datepicker functionality (if datepickerMode is set to true).
 
   - Usage:
 
     ```tsx
     <FormInput
       //.... Other Props
-      disabled={false}
+      disabled={true}
       //... Other Props
     />
     ```
@@ -1082,3 +1095,22 @@ These are the date picker props (Important & useful props are shown first and ar
       //... Other Props
     />
     ```
+
+## Changelog
+
+### [1.5.0] - 2024-06-13
+#### Added
+- `inputContainerBackgroundColor` prop: This new prop allows you to customize the background color of the input container. You can pass any valid color string as the value.
+- Disabled functionality for the datepicker: The datepicker can now be disabled, preventing user interaction. This can be controlled via the `disabled` prop. When `disabled` is set to `true`, the datepicker will be non-interactive.
+<!-- 
+#### Changed
+- (Include any changes in existing functionality) -->
+
+<!-- #### Deprecated
+- (Include any features that were removed or will be removed in future versions) -->
+
+<!-- #### Fixed
+- (Include any bug fixes)
+
+#### Security
+- (Include any security updates) -->

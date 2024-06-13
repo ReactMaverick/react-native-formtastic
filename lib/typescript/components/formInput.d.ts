@@ -3,6 +3,7 @@ import { StyleProp, TextInputProps, TextProps, ViewProps, ViewStyle } from 'reac
 type FormInputProps = {
     mainContainerStyle?: StyleProp<ViewStyle>;
     inputContainerStyle?: object;
+    inputContainerBackgroundColor?: string;
     placeholderText?: string;
     placeholderTextColor?: string;
     inputStyle?: object;

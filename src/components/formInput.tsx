@@ -322,6 +322,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 type FormInputProps = {
     mainContainerStyle?: StyleProp<ViewStyle>;
     inputContainerStyle?: object;
+    inputContainerBackgroundColor?: string;
     placeholderText?: string;
     placeholderTextColor?: string;
     inputStyle?: object;
@@ -398,6 +399,7 @@ type FormInputProps = {
 const FormInput: React.FC<FormInputProps> = ({
     mainContainerStyle,
     inputContainerStyle,
+    inputContainerBackgroundColor,
     placeholderText,
     placeholderTextColor,
     inputStyle,
@@ -606,6 +608,7 @@ const FormInput: React.FC<FormInputProps> = ({
                 style={
                     inputContainerStyle ?? [styles.defaultInputContainerStyle,
                     !showCharacterLimit && { borderBottomStartRadius: 10, borderBottomEndRadius: 10 },
+                    inputContainerBackgroundColor ? { backgroundColor: inputContainerBackgroundColor } : {},
                     error && { backgroundColor: colors.lightError }
                     ]
                 }
@@ -615,9 +618,10 @@ const FormInput: React.FC<FormInputProps> = ({
                     <Pressable
                         style={leftIconContainerStyle ?? styles.defaultLeftIconContainerStyle}
                         onPress={
-                            datePicker ?
+                            datePicker && !disabled ?
                                 () => setShowDatePicker(true) :
-                                leftIconOnPress ?? (() => { })
+                                datePicker && disabled ? (() => { }) :
+                                    leftIconOnPress ?? (() => { })
                         }
                     >
                         {
@@ -650,20 +654,37 @@ const FormInput: React.FC<FormInputProps> = ({
                                     justifyContent: 'center',
                                     height: 50
                                 },
-                                inputTextColor ? { color: inputTextColor } : {},
                                 error ? { borderColor: colors.error } : {},
                                 leftIcon ? { paddingLeft: 40 } : {},
                                 rightIcon ? { paddingRight: 40 } : {}
                                 ]
                             }
-                            onPress={() => setShowDatePicker(true)}
+                            onPress={() => {
+                                if (disabled) return;
+                                setShowDatePicker(true);
+                            }}
                         >
                             {showDatePlaceholder && datePlaceholder ?
-                                <Text>{datePlaceholder}</Text> :
+                                <Text
+                                    style={[
+                                        inputTextColor ? { color: inputTextColor } : {},
+                                        disabled ? { color: colors.lightGrey } : {}
+                                    ]}
+                                >{datePlaceholder}</Text> :
                                 date ?
-                                    (<Text>{datePickerWithTime ? dayjs(date).format(dateTimeFormat ?? 'DD-MM-YYYY hh:mm:ss A') : dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}</Text>) :
+                                    (<Text
+                                        style={[
+                                            inputTextColor ? { color: inputTextColor } : {},
+                                            disabled ? { color: colors.lightGrey } : {}
+                                        ]}
+                                    >{datePickerWithTime ? dayjs(date).format(dateTimeFormat ?? 'DD-MM-YYYY hh:mm:ss A') : dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}</Text>) :
                                     range && range.startDate && range.endDate ?
-                                        (<Text>{`${dayjs(range.startDate).format(dateFormat ?? 'DD-MM-YYYY')} - ${dayjs(range.endDate).format(dateFormat ?? 'DD-MM-YYYY')}`}</Text>) :
+                                        (<Text
+                                            style={[
+                                                inputTextColor ? { color: inputTextColor } : {},
+                                                disabled ? { color: colors.lightGrey } : {}
+                                            ]}
+                                        >{`${dayjs(range.startDate).format(dateFormat ?? 'DD-MM-YYYY')} - ${dayjs(range.endDate).format(dateFormat ?? 'DD-MM-YYYY')}`}</Text>) :
                                         dates && dates.length ?
                                             (
                                                 <View
@@ -675,7 +696,13 @@ const FormInput: React.FC<FormInputProps> = ({
                                                     }}
                                                 >
                                                     {dates.slice(0, 3).map((date, index) => (
-                                                        <Text key={index}>
+                                                        <Text
+                                                            key={index}
+                                                            style={[
+                                                                inputTextColor ? { color: inputTextColor } : {},
+                                                                disabled ? { color: colors.lightGrey } : {}
+                                                            ]}
+                                                        >
                                                             {`${dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}${index < dates.length - 1 && index < 2 ? ', ' : index === 2 ? '...' : ''}`}
                                                         </Text>
                                                     ))}
