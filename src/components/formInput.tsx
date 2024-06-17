@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode, useCallback, useEffect, useState } from 'react';
-import { Animated, Modal, Pressable, StyleProp, Text, TextInput, TextInputProps, TextProps, View, ViewProps, ViewStyle } from 'react-native';
+import { Animated, Modal, Pressable, StyleProp, Text, TextInput, TextInputProps, TextProps, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
 import { colors, screenHeight, screenWidth, styles } from './utils';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from 'react-native-ui-datepicker';
@@ -28,9 +28,9 @@ type DatePickerModalProps = {
     datePickerCloseButtonColor?: string;
     datePickerMode?: 'single' | 'range' | 'multiple';
     selectedItemColor?: string;
-    selectedTextStyle?: object;
+    selectedTextStyle?: TextStyle;
     firstDayOfWeek?: number;
-    headerTextContainerStyle?: object;
+    headerTextContainerStyle?: ViewStyle;
     setShowDatePlaceholder?: (showDatePlaceholder: boolean) => void;
     animationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
     animationDuration?: number;
@@ -320,20 +320,20 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 }
 
 type FormInputProps = {
-    mainContainerStyle?: StyleProp<ViewStyle>;
-    inputContainerStyle?: object;
+    mainContainerStyle?: ViewStyle;
+    inputContainerStyle?: ViewStyle;
     inputContainerBackgroundColor?: string;
     placeholderText?: string;
     placeholderTextColor?: string;
-    inputStyle?: object;
+    inputStyle?: TextStyle | ViewStyle;
     inputTextColor?: string;
     hideLabel?: boolean;
     labelText?: string;
-    labelTextStyle?: object;
-    labelTextContainerStyle?: object;
+    labelTextStyle?: TextStyle;
+    labelTextContainerStyle?: ViewStyle;
     isRequired?: boolean;
     requiredText?: string;
-    requiredTextStyle?: object;
+    requiredTextStyle?: TextStyle;
     requiredTextColor?: string;
     labelTextColor?: string;
     textInputProps?: TextInputProps;
@@ -350,18 +350,18 @@ type FormInputProps = {
     value?: string;
     error?: boolean;
     errorText?: string;
-    errorTextStyle?: object;
+    errorTextStyle?: TextStyle;
     leftIcon?: string;
     leftIconColor?: string;
     leftIconStyle?: object;
-    leftIconContainerStyle?: object;
-    renderLeftIcon?: FunctionComponent<{ children?: ReactNode, style?: StyleProp<ViewStyle> }>;
+    leftIconContainerStyle?: ViewStyle;
+    renderLeftIcon?: FunctionComponent<{ children?: ReactNode, style?: ViewStyle }>;
     leftIconOnPress?: () => void;
     rightIcon?: string;
     rightIconColor?: string;
     rightIconStyle?: object;
-    rightIconContainerStyle?: object;
-    renderRightIcon?: FunctionComponent<{ children?: ReactNode, style?: StyleProp<ViewStyle> }>;
+    rightIconContainerStyle?: ViewStyle;
+    renderRightIcon?: FunctionComponent<{ children?: ReactNode, style?: ViewStyle }>;
     rightIconOnPress?: () => void;
     hiddenText?: boolean;
     disabled?: boolean;
@@ -384,9 +384,9 @@ type FormInputProps = {
     datePickerCloseButtonColor?: string;
     datePickerMode?: 'single' | 'range' | 'multiple';
     selectedItemColor?: string;
-    selectedTextStyle?: object;
+    selectedTextStyle?: TextStyle;
     firstDayOfWeek?: number;
-    headerTextContainerStyle?: object;
+    headerTextContainerStyle?: ViewStyle;
     datePlaceholder?: string;
     datePickerAnimationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
     animationDuration?: number;
