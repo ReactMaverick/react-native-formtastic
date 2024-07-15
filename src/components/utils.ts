@@ -1,8 +1,18 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Appearance, Dimensions, StyleSheet } from "react-native";
 
 export const screenHeight = Dimensions.get('window').height;
 
 export const screenWidth = Dimensions.get('window').width;
+
+const getDeviceTheme = () => {
+    const colorScheme = Appearance.getColorScheme();
+    return colorScheme;
+}
+
+export const deviceTheme = getDeviceTheme();
+
+// console.log('Device Theme: ', deviceTheme);
+
 
 export const colors = {
     primary: '#f7287b',
@@ -13,6 +23,7 @@ export const colors = {
     offWhite: '#f5f5f5',
     transparentBlack: 'rgba(0, 0, 0, 0.02)',
     grey: 'grey',
+    slightlyDarkGrey: '#666',
     lightGrey: '#d3d3d3',
     darkGrey: '#333',
     error: 'red',
@@ -23,14 +34,35 @@ export const colors = {
     reddishOrange: '#F66666',
 };
 
+export const getThemedColor = (theme: string, element: string) => {
+    if (theme === 'system' && deviceTheme) {
+        theme = deviceTheme;
+    }
+
+    // console.log('Theme: ', theme, element);
+
+    switch (element) {
+        case 'inputStyle':
+            return { backgroundColor: theme === 'dark' ? colors.lightGrey : colors.offWhite };
+        case 'inputContainerStyle':
+            return { backgroundColor: theme === 'dark' ? colors.slightlyDarkGrey : colors.lightGrey };
+        case 'labelTextStyle':
+            return { color: theme === 'dark' ? colors.lightGrey : colors.darkGrey };
+        case 'datePickerModalInner':
+            return { backgroundColor: theme === 'dark' ? colors.darkGrey : colors.offWhite };
+    }
+};
+
 export const styles = StyleSheet.create({
     defaultInputStyle: {
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: colors.lightGrey,
         width: '100%',
         padding: 10,
-        backgroundColor: 'white',
         borderRadius: 10,
+        color: colors.darkGrey,
+        justifyContent: 'center',
+        height: 50,
     },
     defaultMainContainerStyle: {
         justifyContent: 'center',
@@ -42,7 +74,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 3,
-        backgroundColor: colors.lightGrey,
         borderRadius: 10,
         borderBottomStartRadius: 15,
         borderBottomEndRadius: 15,
@@ -50,7 +81,6 @@ export const styles = StyleSheet.create({
     },
     defaultLabelTextStyle: {
         fontSize: 16,
-        color: colors.darkGrey,
         marginBottom: 10,
     },
     defaultLabelTextContainerStyle: {
@@ -90,7 +120,6 @@ export const styles = StyleSheet.create({
     datePickerModalInner: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.offWhite,
         padding: 10,
         borderRadius: 10,
         zIndex: 2,
@@ -130,7 +159,7 @@ export const styles = StyleSheet.create({
         borderRadius: 30,
     },
     timePickerIndicatorStyleCustom: {
-        backgroundColor: colors.lightGrey,
+        backgroundColor: deviceTheme === 'dark' ? colors.slightlyDarkGrey : colors.lightGrey,
         borderRadius: 10,
     },
     datePickerModalLeftRightButtonIconOuter: {

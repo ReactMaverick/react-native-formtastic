@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode, useCallback, useEffect, useState } from 'react';
-import { Animated, Modal, Pressable, StyleProp, Text, TextInput, TextInputProps, TextProps, TextStyle, View, ViewProps, ViewStyle } from 'react-native';
-import { colors, screenHeight, screenWidth, styles } from './utils';
+import { Animated, Modal, Pressable, StyleProp, Text, TextInput, TextInputProps, TextProps, TextStyle, useColorScheme, View, ViewProps, ViewStyle } from 'react-native';
+import { colors, getThemedColor, screenHeight, screenWidth, styles } from './utils';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
@@ -35,6 +35,7 @@ type DatePickerModalProps = {
     animationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
     animationDuration?: number;
     hideConfirmButton?: boolean;
+    theme?: 'light' | 'dark' | 'system';
 };
 
 const DatePickerModal: React.FC<DatePickerModalProps> = ({
@@ -64,6 +65,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     animationType,
     animationDuration,
     hideConfirmButton,
+    theme = 'system',
 }) => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -257,7 +259,8 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                             }
                         >
                             <Pressable style={[styles.datePickerModalInner,
-                            { backgroundColor: datePickerBackgroundColor ?? colors.offWhite }
+                            getThemedColor(theme, 'datePickerModalInner'),
+                            datePickerBackgroundColor ? { backgroundColor: datePickerBackgroundColor } : {}
                             ]}
                                 onPress={(e) => {
                                     e.stopPropagation();
@@ -266,7 +269,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                                 {showDatePickerCloseButton &&
                                     <Pressable
                                         style={[styles.datePickerModalCloseButton,
-                                        { backgroundColor: datePickerCloseButtonColor ?? colors.reddishOrange }
+                                        datePickerCloseButtonColor ? { backgroundColor: datePickerCloseButtonColor } : {}
                                         ]}
                                         onPress={() => closeModal()}
                                     >
@@ -365,6 +368,7 @@ type FormInputProps = {
     rightIconOnPress?: () => void;
     hiddenText?: boolean;
     disabled?: boolean;
+    theme?: 'light' | 'dark' | 'system';
     // Date Picker Props
     datePicker?: boolean;
     datePickerWithTime?: boolean;
@@ -442,6 +446,7 @@ const FormInput: React.FC<FormInputProps> = ({
     rightIconOnPress,
     hiddenText,
     disabled,
+    theme = 'system',
     // Date Picker Props
     datePicker,
     datePickerWithTime,
@@ -487,7 +492,7 @@ const FormInput: React.FC<FormInputProps> = ({
     // For Multiple Dates //
     const [dates, setDates] = useState<Date[] | undefined>(initialDates ?? undefined);
 
-    const [showAllDates, setShowAllDates] = useState(false);
+    // const [showAllDates, setShowAllDates] = useState(false);
 
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
@@ -569,6 +574,7 @@ const FormInput: React.FC<FormInputProps> = ({
                     animationType={datePickerAnimationType ?? 'zoomIn'}
                     animationDuration={animationDuration ?? 400}
                     hideConfirmButton={hideDatePickerConfirmButton}
+                    theme={theme}
                 />
             }
             {!hideLabel &&
@@ -582,6 +588,7 @@ const FormInput: React.FC<FormInputProps> = ({
                         style={
                             [
                                 labelTextStyle ?? styles.defaultLabelTextStyle,
+                                getThemedColor(theme, 'labelTextStyle'),
                                 labelTextColor ? { color: labelTextColor } : {}
                             ]
                         }
@@ -607,6 +614,7 @@ const FormInput: React.FC<FormInputProps> = ({
             <View
                 style={
                     inputContainerStyle ?? [styles.defaultInputContainerStyle,
+                    getThemedColor(theme, 'inputContainerStyle'),
                     !showCharacterLimit && { borderBottomStartRadius: 10, borderBottomEndRadius: 10 },
                     inputContainerBackgroundColor ? { backgroundColor: inputContainerBackgroundColor } : {},
                     error && { backgroundColor: colors.lightError }
@@ -627,7 +635,7 @@ const FormInput: React.FC<FormInputProps> = ({
                         {
                             renderLeftIcon ?
                                 renderLeftIcon({ children: leftIcon, style: leftIconStyle }) :
-                                <Icon name={leftIcon} size={20} color={error ? colors.error : leftIconColor ?? colors.grey} />
+                                <Icon name={leftIcon} size={20} color={error ? colors.error : leftIconColor ?? colors.slightlyDarkGrey} />
                         }
                     </Pressable>
                 }
@@ -640,7 +648,7 @@ const FormInput: React.FC<FormInputProps> = ({
                         {
                             renderRightIcon ?
                                 renderRightIcon({ children: leftIcon, style: rightIconStyle }) :
-                                <Icon name={rightIcon} size={20} color={error ? colors.error : rightIconColor ?? colors.grey} />
+                                <Icon name={rightIcon} size={20} color={error ? colors.error : rightIconColor ?? colors.slightlyDarkGrey} />
                         }
                     </Pressable>
                 }
@@ -649,11 +657,7 @@ const FormInput: React.FC<FormInputProps> = ({
                         <Pressable
                             style={
                                 [inputStyle ?? styles.defaultInputStyle,
-                                inputStyle ??
-                                {
-                                    justifyContent: 'center',
-                                    height: 50
-                                },
+                                getThemedColor(theme, 'inputStyle'),
                                 error ? { borderColor: colors.error } : {},
                                 leftIcon ? { paddingLeft: 40 } : {},
                                 rightIcon ? { paddingRight: 40 } : {}
@@ -667,21 +671,27 @@ const FormInput: React.FC<FormInputProps> = ({
                             {showDatePlaceholder && datePlaceholder ?
                                 <Text
                                     style={[
-                                        inputTextColor ? { color: inputTextColor } : {},
+                                        inputTextColor ? { color: inputTextColor } : {
+                                            color: colors.slightlyDarkGrey
+                                        },
                                         disabled ? { color: colors.lightGrey } : {}
                                     ]}
                                 >{datePlaceholder}</Text> :
                                 date ?
                                     (<Text
                                         style={[
-                                            inputTextColor ? { color: inputTextColor } : {},
+                                            inputTextColor ? { color: inputTextColor } : {
+                                                color: colors.darkGrey
+                                            },
                                             disabled ? { color: colors.lightGrey } : {}
                                         ]}
                                     >{datePickerWithTime ? dayjs(date).format(dateTimeFormat ?? 'DD-MM-YYYY hh:mm:ss A') : dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}</Text>) :
                                     range && range.startDate && range.endDate ?
                                         (<Text
                                             style={[
-                                                inputTextColor ? { color: inputTextColor } : {},
+                                                inputTextColor ? { color: inputTextColor } : {
+                                                    color: colors.darkGrey
+                                                },
                                                 disabled ? { color: colors.lightGrey } : {}
                                             ]}
                                         >{`${dayjs(range.startDate).format(dateFormat ?? 'DD-MM-YYYY')} - ${dayjs(range.endDate).format(dateFormat ?? 'DD-MM-YYYY')}`}</Text>) :
@@ -699,7 +709,9 @@ const FormInput: React.FC<FormInputProps> = ({
                                                         <Text
                                                             key={index}
                                                             style={[
-                                                                inputTextColor ? { color: inputTextColor } : {},
+                                                                inputTextColor ? { color: inputTextColor } : {
+                                                                    color: colors.darkGrey
+                                                                },
                                                                 disabled ? { color: colors.lightGrey } : {}
                                                             ]}
                                                         >
@@ -722,6 +734,7 @@ const FormInput: React.FC<FormInputProps> = ({
                         }
                         style={
                             [inputStyle ?? styles.defaultInputStyle,
+                            getThemedColor(theme, 'inputStyle'),
                             inputTextColor ? { color: inputTextColor } : {},
                             error ? { borderColor: colors.error } : {},
                             leftIcon ? { paddingLeft: 40 } : {},
