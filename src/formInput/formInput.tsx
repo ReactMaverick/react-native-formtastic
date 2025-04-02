@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Modal, Pressable, Text, TextInput, View } from 'react-native';
 import { colors, getThemedColor, screenHeight, screenWidth, styles } from './utils';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import DateTimePicker from 'react-native-ui-datepicker';
+import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import { DatePickerModalPropTypes } from './propTypes/datePickerModalPropTypes';
 import { FormInputPropTypes } from './propTypes/formInputPropTypes';
+import Icon from './icon';
 
 const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
     date,
@@ -26,16 +26,45 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
     showDatePickerCloseButton = false,
     datePickerCloseButtonColor,
     datePickerMode = 'single',
-    selectedItemColor,
-    selectedTextStyle,
     firstDayOfWeek,
-    headerTextContainerStyle,
+    headerContainerStyle,
     setShowDatePlaceholder,
     animationType,
     animationDuration,
     hideConfirmButton,
     theme = 'system',
+    selectedContainerStyle,
+    selectedTextStyle,
+    todayContainerStyle,
+    todayTextStyle,
+    weekDaysContainerStyle,
+    weekDaysTextStyle,
+    yearContainerStyle,
+    yearTextStyle,
+    activeYearContainerStyle,
+    activeYearTextStyle,
+    selectedYearContainerStyle,
+    selectedYearTextStyle,
+    monthContainerStyle,
+    monthTextStyle,
+    selectedMonthContainerStyle,
+    selectedMonthTextStyle,
+    datePickerLeftButtonStyle,
+    datePickerRightButtonStyle,
+    datePickerDayContainerStyle,
+    datePickerDayTextStyle,
+    yearSelectorTextStyle,
+    monthSelectorTextStyle,
+    timeSelectorTextStyle,
+    datePickerOutsideDayTextStyle,
+    timePickerIndicatorStyle,
+    timeTextStyle,
+    datePickerRangeStyle,
+    datePickerProps,
+    datePickerStyles,
 }) => {
+
+    const defaultStyles = useDefaultStyles();
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -137,22 +166,6 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
         [datePickerMode]
     );
 
-    const leftButtonIcon = () => {
-        return (
-            <View style={styles.datePickerModalLeftRightButtonIconOuter}>
-                <Icon name='angle-left' size={20} color={colors.offWhite} />
-            </View>
-        );
-    }
-
-    const rightButtonIcon = () => {
-        return (
-            <View style={styles.datePickerModalLeftRightButtonIconOuter}>
-                <Icon name='angle-right' size={20} color={colors.offWhite} />
-            </View>
-        );
-    }
-
     const openModal = () => {
         setIsModalVisible(true);
         Animated.timing(modalPosition, {
@@ -185,25 +198,40 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
                 visible={isModalVisible}
                 transparent={true}
                 animationType='none'
+                onRequestClose={() => closeModal()}
             >
-                <Animated.View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    opacity: opacityAnimationOuter,
-                }}
+                <Animated.View
+                    style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        opacity: opacityAnimationOuter,
+                    }}
                 >
-                    <Pressable
+                    <View
                         style={styles.datePickerModalContainer}
-                        onPress={() => {
-                            closeModal();
-                        }}
                     >
+                        <Pressable
+                            style={{
+                                width: screenWidth,
+                                height: screenHeight,
+                                // backgroundColor: 'red',
+                                position: 'absolute',
+                                top: 0,
+                                // transform: 'translateX(-90%)',
+                                zIndex: 1,
+                            }}
+                            onPress={() => {
+                                closeModal();
+                            }}
+                        />
                         <Animated.View
                             style={
                                 {
                                     flex: 1,
+                                    // backgroundColor: 'yellow',
+                                    zIndex: 2,
                                     transform: [
                                         {
                                             translateY: translateYAnimation,
@@ -218,13 +246,25 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
                                 }
                             }
                         >
-                            <Pressable style={[styles.datePickerModalInner,
-                            getThemedColor(theme, 'datePickerModalInner'),
-                            datePickerBackgroundColor ? { backgroundColor: datePickerBackgroundColor } : {}
-                            ]}
-                                onPress={(e) => {
-                                    e.stopPropagation();
+                            <Pressable
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    // backgroundColor: 'red',
+                                    position: 'absolute',
+                                    top: 0,
+                                    // transform: 'translateX(-90%)',
+                                    // zIndex: 1,
                                 }}
+                                onPress={() => {
+                                    closeModal();
+                                }}
+                            />
+                            <View
+                                style={[styles.datePickerModalInner,
+                                getThemedColor(theme, 'datePickerModalInner'),
+                                datePickerBackgroundColor ? { backgroundColor: datePickerBackgroundColor } : {}
+                                ]}
                             >
                                 {showDatePickerCloseButton &&
                                     <Pressable
@@ -243,24 +283,44 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
                                     endDate={selectedRange.endDate}
                                     dates={selectedDates}
                                     timePicker={datePickerWithTime}
-                                    displayFullDays={true}
                                     onChange={onChangeDate}
-                                    timePickerContainerStyle={styles.timePickerContainerStyleCustom}
-                                    weekDaysContainerStyle={styles.weekDaysContainerStyleCustom}
-                                    weekDaysTextStyle={styles.weekDaysTextStyleCustom}
-                                    yearContainerStyle={styles.yearContainerStyleCustom}
-                                    monthContainerStyle={styles.monthContainerStyleCustom}
-                                    timePickerIndicatorStyle={styles.timePickerIndicatorStyleCustom}
-                                    buttonPrevIcon={leftButtonIcon()}
-                                    buttonNextIcon={rightButtonIcon()}
-                                    headerContainerStyle={styles.headerContainerStyleCustom}
-                                    headerTextStyle={styles.headerTextStyleCustom}
-                                    selectedItemColor={selectedItemColor ?? colors.lightGreen}
-                                    selectedTextStyle={selectedTextStyle ?? styles.selectedTextStyleCustom}
                                     firstDayOfWeek={firstDayOfWeek ?? 1}
                                     maxDate={disableFutureDates ? new Date() : undefined}
                                     minDate={disablePastDates ? new Date() : undefined}
-                                    headerTextContainerStyle={headerTextContainerStyle ?? styles.headerTextContainerStyleCustom}
+                                    showOutsideDays={true}
+                                    styles={{
+                                        ...defaultStyles,
+                                        today: { ...styles.todayContainerStyleCustom, ...todayContainerStyle }, // Today Item Container Style
+                                        today_label: { ...getThemedColor(theme, 'todayTextStyle'), ...todayTextStyle }, // Today Item Text Style
+                                        selected: { ...styles.selectedContainerStyleCustom, ...selectedContainerStyle }, // Selected Item Container Style
+                                        selected_label: { ...styles.selectedTextStyleCustom, ...selectedTextStyle }, // Selected Item Text Style
+                                        weekdays: { ...styles.weekDaysContainerStyleCustom, ...getThemedColor(theme, 'weekDaysContainerStyle'), ...weekDaysContainerStyle }, // Weekdays Container Style
+                                        weekday_label: { ...styles.weekDaysTextStyleCustom, ...weekDaysTextStyle }, // Weekday Text Style
+                                        year: { ...styles.yearMonthContainerStyleCustom, ...getThemedColor(theme, 'yearMonthContainerStyle'), ...yearContainerStyle }, // Year Item Container Style
+                                        year_label: { ...styles.yearMonthTextStyleCustom, ...getThemedColor(theme, 'yearMonthTextStyle'), ...yearTextStyle }, // Year Item Text Style
+                                        active_year: { ...styles.activeYearMonthContainerStyleCustom, ...activeYearContainerStyle }, // Active Year Item Container Style
+                                        active_year_label: { ...styles.activeYearMonthTextStyleCustom, ...activeYearTextStyle }, // Active Year Item Text Style
+                                        selected_year: { ...styles.selectedYearMonthContainerStyleCustom, ...selectedYearContainerStyle }, // Selected Year Item Container Style
+                                        selected_year_label: { ...styles.selectedYearMonthTextStyleCustom, ...selectedYearTextStyle }, // Selected Year Item Text Style
+                                        month: { ...styles.yearMonthContainerStyleCustom, ...getThemedColor(theme, 'yearMonthContainerStyle'), ...monthContainerStyle }, // Month Item Container Style
+                                        month_label: { ...styles.yearMonthTextStyleCustom, ...getThemedColor(theme, 'yearMonthTextStyle'), ...monthTextStyle }, // Month Item Text Style
+                                        selected_month: { ...styles.activeYearMonthContainerStyleCustom, ...selectedMonthContainerStyle }, // Selected Month Item Container Style
+                                        selected_month_label: { ...styles.activeYearMonthTextStyleCustom, ...selectedMonthTextStyle }, // Selected Month Item Text Style
+                                        header: { ...styles.headerContainerStyleCustom, ...getThemedColor(theme, 'headerContainerStyle'), ...headerContainerStyle }, // Header Container Style
+                                        button_prev: { ...styles.datePickerModalLeftRightButtonIconOuter, ...getThemedColor(theme, 'datePickerModalLeftRightButtonIconOuter'), ...datePickerLeftButtonStyle }, // Left Button Style
+                                        button_next: { ...styles.datePickerModalLeftRightButtonIconOuter, ...getThemedColor(theme, 'datePickerModalLeftRightButtonIconOuter'), ...datePickerRightButtonStyle }, // Right Button Style
+                                        day: { ...datePickerDayContainerStyle }, // Day Button Container Style
+                                        day_label: { ...getThemedColor(theme, 'datePickerDayTextStyle'), ...datePickerDayTextStyle }, // Day Button Text Style
+                                        month_selector_label: { ...styles.yearMonthTimeSelectorTextStyleCustom, ...getThemedColor(theme, 'yearMonthTimeSelectorTextStyle'), ...monthSelectorTextStyle }, // Month Selector Button Style
+                                        year_selector_label: { ...styles.yearMonthTimeSelectorTextStyleCustom, ...getThemedColor(theme, 'yearMonthTimeSelectorTextStyle'), ...yearSelectorTextStyle }, // Year Selector Button Style
+                                        time_selector_label: { ...styles.yearMonthTimeSelectorTextStyleCustom, ...getThemedColor(theme, 'yearMonthTimeSelectorTextStyle'), ...timeSelectorTextStyle }, // Time Selector Button Style
+                                        outside_label: { ...getThemedColor(theme, 'datePickerOutsideDayTextStyle'), ...datePickerOutsideDayTextStyle }, // Outside Day Button Style
+                                        time_selected_indicator: { ...styles.timePickerContainerStyleCustom, ...getThemedColor(theme, 'timePickerContainerStyle'), ...timePickerIndicatorStyle }, // Time Picker Indicator Style
+                                        range_fill: { ...styles.datePickerRangeStyleCustom, ...datePickerRangeStyle }, // Range Fill Style
+                                        time_label: { ...styles.timeTextStyleCustom, ...getThemedColor(theme, 'timeTextStyle'), ...timeTextStyle }, // Time Label Style
+                                        ...datePickerStyles,
+                                    }}
+                                    {...datePickerProps}
                                 />
 
                                 {!hideConfirmButton &&
@@ -273,9 +333,9 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
                                 }
 
 
-                            </Pressable>
+                            </View>
                         </Animated.View>
-                    </Pressable>
+                    </View>
                 </Animated.View>
             </Modal>
         )
@@ -319,16 +379,22 @@ const FormInput: React.FC<FormInputPropTypes> = ({
     leftIconStyle,
     leftIconContainerStyle,
     renderLeftIcon,
+    leftIconSource = 'font-awesome',
+    leftIconSize = 20,
     leftIconOnPress,
     rightIcon,
     rightIconColor,
     rightIconStyle,
     rightIconContainerStyle,
     renderRightIcon,
+    rightIconSource = 'font-awesome',
+    rightIconSize = 20,
     rightIconOnPress,
     hiddenText,
     disabled,
     theme = 'system',
+    multiline,
+    numberOfLines,
     // Date Picker Props
     datePicker,
     datePickerWithTime,
@@ -347,32 +413,58 @@ const FormInput: React.FC<FormInputPropTypes> = ({
     showDatePickerCloseButton,
     datePickerCloseButtonColor,
     datePickerMode,
-    selectedItemColor,
-    selectedTextStyle,
     firstDayOfWeek,
-    headerTextContainerStyle,
     datePlaceholder,
     datePickerAnimationType,
     animationDuration,
     hideDatePickerConfirmButton,
     dateFormat,
     dateTimeFormat,
+    selectedContainerStyle,
+    selectedTextStyle,
+    todayContainerStyle,
+    todayTextStyle,
+    weekDaysContainerStyle,
+    weekDaysTextStyle,
+    yearContainerStyle,
+    yearTextStyle,
+    activeYearContainerStyle,
+    activeYearTextStyle,
+    selectedYearContainerStyle,
+    selectedYearTextStyle,
+    monthContainerStyle,
+    monthTextStyle,
+    selectedMonthContainerStyle,
+    selectedMonthTextStyle,
+    datePickerLeftButtonStyle,
+    datePickerRightButtonStyle,
+    datePickerDayContainerStyle,
+    datePickerDayTextStyle,
+    yearSelectorTextStyle,
+    monthSelectorTextStyle,
+    timeSelectorTextStyle,
+    datePickerOutsideDayTextStyle,
+    timePickerIndicatorStyle,
+    timeTextStyle,
+    datePickerRangeStyle,
+    datePickerProps,
+    datePickerStyles,
     // Date Picker Props
 }) => {
 
     const [inputValue, setInputValue] = useState<string>('');
 
     // For Single Date //
-    const [date, setDate] = useState<Date | undefined>(initialDate ?? undefined);
+    const [date, setDate] = useState<DateType>(initialDate ?? undefined);
 
     // For Date Range //
     const [range, setRange] = useState<{
-        startDate: Date | undefined;
-        endDate: Date | undefined;
+        startDate: DateType;
+        endDate: DateType;
     }>({ startDate: initialRange?.startDate ?? undefined, endDate: initialRange?.endDate ?? undefined });
 
     // For Multiple Dates //
-    const [dates, setDates] = useState<Date[] | undefined>(initialDates ?? undefined);
+    const [dates, setDates] = useState<DateType[] | undefined>(initialDates ?? undefined);
 
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
@@ -382,6 +474,7 @@ const FormInput: React.FC<FormInputPropTypes> = ({
         setInputValue(text);
         onTextChange && onTextChange(text);
     }
+
 
     useEffect(() => {
         if (datePlaceholder) {
@@ -410,11 +503,13 @@ const FormInput: React.FC<FormInputPropTypes> = ({
         }
     }, [dates]);
 
+
     return (
         <View
-            style={
-                mainContainerStyle ?? styles.defaultMainContainerStyle
-            }
+            style={{
+                ...styles.defaultMainContainerStyle,
+                ...mainContainerStyle
+            }}
             {...mainContainerViewProps}
         >
             {datePicker && showDatePicker &&
@@ -437,65 +532,100 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                     showDatePickerCloseButton={showDatePickerCloseButton}
                     datePickerCloseButtonColor={datePickerCloseButtonColor}
                     datePickerMode={datePickerMode}
-                    selectedItemColor={selectedItemColor}
-                    selectedTextStyle={selectedTextStyle}
                     firstDayOfWeek={firstDayOfWeek}
-                    headerTextContainerStyle={headerTextContainerStyle}
                     setShowDatePlaceholder={setShowDatePlaceholder}
                     animationType={datePickerAnimationType ?? 'zoomIn'}
-                    animationDuration={animationDuration ?? 400}
+                    animationDuration={animationDuration ?? 600}
                     hideConfirmButton={hideDatePickerConfirmButton}
                     theme={theme}
+                    selectedContainerStyle={selectedContainerStyle}
+                    selectedTextStyle={selectedTextStyle}
+                    todayContainerStyle={todayContainerStyle}
+                    todayTextStyle={todayTextStyle}
+                    weekDaysContainerStyle={weekDaysContainerStyle}
+                    weekDaysTextStyle={weekDaysTextStyle}
+                    yearContainerStyle={yearContainerStyle}
+                    yearTextStyle={yearTextStyle}
+                    activeYearContainerStyle={activeYearContainerStyle}
+                    activeYearTextStyle={activeYearTextStyle}
+                    selectedYearContainerStyle={selectedYearContainerStyle}
+                    selectedYearTextStyle={selectedYearTextStyle}
+                    monthContainerStyle={monthContainerStyle}
+                    monthTextStyle={monthTextStyle}
+                    selectedMonthContainerStyle={selectedMonthContainerStyle}
+                    selectedMonthTextStyle={selectedMonthTextStyle}
+                    datePickerLeftButtonStyle={datePickerLeftButtonStyle}
+                    datePickerRightButtonStyle={datePickerRightButtonStyle}
+                    datePickerDayContainerStyle={datePickerDayContainerStyle}
+                    datePickerDayTextStyle={datePickerDayTextStyle}
+                    yearSelectorTextStyle={yearSelectorTextStyle}
+                    monthSelectorTextStyle={monthSelectorTextStyle}
+                    timeSelectorTextStyle={timeSelectorTextStyle}
+                    datePickerOutsideDayTextStyle={datePickerOutsideDayTextStyle}
+                    timePickerIndicatorStyle={timePickerIndicatorStyle}
+                    timeTextStyle={timeTextStyle}
+                    datePickerRangeStyle={datePickerRangeStyle}
+                    datePickerProps={datePickerProps}
+                    datePickerStyles={datePickerStyles}
                 />
             }
             {!hideLabel &&
                 <View
-                    style={
-                        labelTextContainerStyle ?? styles.defaultLabelTextContainerStyle
-                    }
+                    style={{
+                        ...styles.defaultLabelTextContainerStyle,
+                        ...labelTextContainerStyle,
+                    }}
                     {...labelTextContainerViewProps}
                 >
                     <Text
                         style={
                             [
-                                labelTextStyle ?? styles.defaultLabelTextStyle,
+                                styles.defaultLabelTextStyle,
                                 getThemedColor(theme, 'labelTextStyle'),
-                                labelTextColor ? { color: labelTextColor } : {}
+                                labelTextColor ? { color: labelTextColor } : {},
+                                { ...labelTextStyle }
                             ]
                         }
                         {...labelTextProps}
                     >
-                        {labelText ? labelText : 'Input Label'}
+                        {labelText ?? 'Input Label'}
                     </Text>
                     {isRequired &&
                         <Text
                             style={
                                 [
                                     styles.defaultRequiredTextStyle,
-                                    requiredTextStyle ? requiredTextStyle : {},
-                                    requiredTextColor ? { color: requiredTextColor } : {}
+                                    requiredTextColor ? { color: requiredTextColor } : {},
+                                    { ...requiredTextStyle }
                                 ]
                             }
                             {...requiredTextProps}
                         >
-                            {requiredText ? requiredText : '*'}
+                            {requiredText ?? '*'}
                         </Text>}
                 </View>
             }
             <View
                 style={
-                    inputContainerStyle ?? [styles.defaultInputContainerStyle,
+                    [styles.defaultInputContainerStyle,
                     getThemedColor(theme, 'inputContainerStyle'),
                     !showCharacterLimit && { borderBottomStartRadius: 10, borderBottomEndRadius: 10 },
                     inputContainerBackgroundColor ? { backgroundColor: inputContainerBackgroundColor } : {},
-                    error && { backgroundColor: colors.lightError }
+                    error && { backgroundColor: colors.lightError },
+                    { ...inputContainerStyle }
                     ]
                 }
                 {...inputContainerViewProps}
             >
                 {leftIcon &&
                     <Pressable
-                        style={leftIconContainerStyle ?? styles.defaultLeftIconContainerStyle}
+                        style={{
+                            ...styles.defaultLeftIconContainerStyle,
+                            ...{
+                                top: showCharacterLimit ? 17 : 'auto',
+                            },
+                            ...leftIconContainerStyle
+                        }}
                         onPress={
                             datePicker && !disabled ?
                                 () => setShowDatePicker(true) :
@@ -505,21 +635,39 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                     >
                         {
                             renderLeftIcon ?
-                                renderLeftIcon({ children: leftIcon, style: leftIconStyle }) :
-                                <Icon name={leftIcon} size={20} color={error ? colors.error : leftIconColor ?? colors.slightlyDarkGrey} />
+                                renderLeftIcon :
+                                <Icon
+                                    name={leftIcon}
+                                    iconSource={leftIconSource}
+                                    size={leftIconSize}
+                                    color={leftIconColor ?? colors.slightlyDarkGrey}
+                                    style={leftIconStyle}
+                                />
                         }
                     </Pressable>
                 }
 
                 {rightIcon &&
                     <Pressable
-                        style={rightIconContainerStyle ?? styles.defaultRightIconContainerStyle}
+                        style={{
+                            ...styles.defaultRightIconContainerStyle,
+                            ...{
+                                top: showCharacterLimit ? 17 : 'auto',
+                            },
+                            ...rightIconContainerStyle
+                        }}
                         onPress={rightIconOnPress ?? (() => { })}
                     >
                         {
                             renderRightIcon ?
-                                renderRightIcon({ children: leftIcon, style: rightIconStyle }) :
-                                <Icon name={rightIcon} size={20} color={error ? colors.error : rightIconColor ?? colors.slightlyDarkGrey} />
+                                renderRightIcon :
+                                <Icon
+                                    name={rightIcon}
+                                    iconSource={rightIconSource}
+                                    size={rightIconSize}
+                                    color={rightIconColor ?? colors.slightlyDarkGrey}
+                                    style={rightIconStyle}
+                                />
                         }
                     </Pressable>
                 }
@@ -527,11 +675,12 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                     <View style={styles.dateInputWrapperInner}>
                         <Pressable
                             style={
-                                [inputStyle ?? styles.defaultInputStyle,
+                                [styles.defaultInputStyle,
                                 getThemedColor(theme, 'inputStyle'),
                                 error ? { borderColor: colors.error } : {},
                                 leftIcon ? { paddingLeft: 40 } : {},
-                                rightIcon ? { paddingRight: 40 } : {}
+                                rightIcon ? { paddingRight: 40 } : {},
+                                { ...inputStyle }
                                 ]
                             }
                             onPress={() => {
@@ -604,12 +753,14 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                             placeholderTextColor ?? colors.grey
                         }
                         style={
-                            [inputStyle ?? styles.defaultInputStyle,
+                            [styles.defaultInputStyle,
                             getThemedColor(theme, 'inputStyle'),
                             inputTextColor ? { color: inputTextColor } : {},
                             error ? { borderColor: colors.error } : {},
                             leftIcon ? { paddingLeft: 40 } : {},
-                            rightIcon ? { paddingRight: 40 } : {}
+                            rightIcon ? { paddingRight: 40 } : {},
+                            multiline && { height: 'auto', textAlignVertical: 'top' },
+                            { ...inputStyle }
                             ]
                         }
                         onChangeText={handleTextChange}
@@ -619,6 +770,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                         autoCapitalize={autoCapitalize ?? 'sentences'}
                         secureTextEntry={hiddenText}
                         editable={!disabled}
+                        multiline={multiline}
+                        numberOfLines={numberOfLines}
                         {...textInputProps}
                     />
                 }
@@ -630,7 +783,9 @@ const FormInput: React.FC<FormInputPropTypes> = ({
             </View>
 
             {errorText &&
-                <Text style={errorTextStyle ?? styles.defaultErrorTextStyle}>{'* '}{errorText}</Text>
+                <Text style={{ ...styles.defaultErrorTextStyle, ...errorTextStyle }}>
+                    {errorText}
+                </Text>
             }
         </View>
     );
