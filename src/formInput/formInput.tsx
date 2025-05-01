@@ -416,6 +416,7 @@ const FormInput: React.FC<FormInputPropTypes> = ({
     firstDayOfWeek,
     datePlaceholder,
     datePickerAnimationType,
+    datePlaceholderStyle,
     animationDuration,
     hideDatePickerConfirmButton,
     dateFormat,
@@ -694,7 +695,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                                         inputTextColor ? { color: inputTextColor } : {
                                             color: colors.slightlyDarkGrey
                                         },
-                                        disabled ? { color: colors.lightGrey } : {}
+                                        disabled ? { color: colors.lightGrey } : {},
+                                        { ... datePlaceholderStyle }
                                     ]}
                                 >{datePlaceholder}</Text> :
                                 date ?
@@ -703,7 +705,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                                             inputTextColor ? { color: inputTextColor } : {
                                                 color: colors.darkGrey
                                             },
-                                            disabled ? { color: colors.lightGrey } : {}
+                                            disabled ? { color: colors.lightGrey } : {},
+                                            { ... inputStyle}
                                         ]}
                                     >{datePickerWithTime ? dayjs(date).format(dateTimeFormat ?? 'DD-MM-YYYY hh:mm:ss A') : dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}</Text>) :
                                     range && range.startDate && range.endDate ?
@@ -712,7 +715,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                                                 inputTextColor ? { color: inputTextColor } : {
                                                     color: colors.darkGrey
                                                 },
-                                                disabled ? { color: colors.lightGrey } : {}
+                                                disabled ? { color: colors.lightGrey } : {},
+                                                { ... inputStyle}
                                             ]}
                                         >{`${dayjs(range.startDate).format(dateFormat ?? 'DD-MM-YYYY')} - ${dayjs(range.endDate).format(dateFormat ?? 'DD-MM-YYYY')}`}</Text>) :
                                         dates && dates.length ?
@@ -732,7 +736,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                                                                 inputTextColor ? { color: inputTextColor } : {
                                                                     color: colors.darkGrey
                                                                 },
-                                                                disabled ? { color: colors.lightGrey } : {}
+                                                                disabled ? { color: colors.lightGrey } : {},
+                                                                { ... inputStyle}
                                                             ]}
                                                         >
                                                             {`${dayjs(date).format(dateFormat ?? 'DD-MM-YYYY')}${index < dates.length - 1 && index < 2 ? ', ' : index === 2 ? '...' : ''}`}

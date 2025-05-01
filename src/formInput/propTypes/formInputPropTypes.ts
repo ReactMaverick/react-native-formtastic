@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import { ReactNode } from "react";
 import { StyleProp, TextInputProps, TextProps, TextStyle, ViewProps, ViewStyle } from "react-native";
 
 export type FormInputPropTypes = {
@@ -76,6 +76,7 @@ export type FormInputPropTypes = {
     firstDayOfWeek?: number;
     headerTextContainerStyle?: ViewStyle;
     datePlaceholder?: string;
+    datePlaceholderStyle?: TextStyle;
     datePickerAnimationType?: 'zoomIn' | 'slideUp' | 'slideDown' | 'slideLeft' | 'slideRight' | 'none';
     animationDuration?: number;
     hideDatePickerConfirmButton?: boolean;
