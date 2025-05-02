@@ -111,5 +111,7 @@ export type FormInputPropTypes = {
     datePickerProps?: any
     datePickerStyles?: any
     timeTextStyle?: TextStyle;
+    datePickerConfirmButtonStyle?: ViewStyle;
+    datePickerConfirmButtonTextStyle?: TextStyle;
     // Date Picker Props
 };

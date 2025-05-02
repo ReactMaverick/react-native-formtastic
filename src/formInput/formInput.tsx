@@ -62,6 +62,8 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
     datePickerRangeStyle,
     datePickerProps,
     datePickerStyles,
+    datePickerConfirmButtonStyle,
+    datePickerConfirmButtonTextStyle,
 }) => {
 
     const defaultStyles = useDefaultStyles();
@@ -325,10 +327,17 @@ const DatePickerModal: React.FC<DatePickerModalPropTypes> = ({
 
                                 {!hideConfirmButton &&
                                     <Pressable
-                                        style={styles.datePickerConfirmButton}
+                                        style={{
+                                            ...styles.datePickerConfirmButton,
+                                            ...datePickerConfirmButtonStyle,
+                                        }}
                                         onPress={() => closeModal()}
                                     >
-                                        <Text style={styles.datePickerConfirmButtonText}>Confirm</Text>
+                                        <Text 
+                                        style={{...styles.datePickerConfirmButtonText, ...datePickerConfirmButtonTextStyle}}
+                                        >
+                                            Confirm
+                                            </Text>
                                     </Pressable>
                                 }
 
@@ -450,6 +459,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
     datePickerRangeStyle,
     datePickerProps,
     datePickerStyles,
+    datePickerConfirmButtonStyle,
+    datePickerConfirmButtonTextStyle,
     // Date Picker Props
 }) => {
 
@@ -568,6 +579,8 @@ const FormInput: React.FC<FormInputPropTypes> = ({
                     datePickerRangeStyle={datePickerRangeStyle}
                     datePickerProps={datePickerProps}
                     datePickerStyles={datePickerStyles}
+                    datePickerConfirmButtonStyle={datePickerConfirmButtonStyle}
+                    datePickerConfirmButtonTextStyle={datePickerConfirmButtonTextStyle}
                 />
             }
             {!hideLabel &&

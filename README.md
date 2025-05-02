@@ -1538,9 +1538,37 @@ These are the date picker props (Important & useful props are shown first and ar
     />
     ```
 
+- `datePickerConfirmButtonStyle`: Style object for the date picker confirm button.
+
+  - Usage:
+
+    ```tsx
+    <FormInput
+      //.... Other Props
+      datePickerConfirmButtonStyle={{ backgroundColor: "blue" }}
+      //... Other Props
+    />
+    ```
+
+- `datePickerConfirmButtonTextStyle`: Style object for the date picker confirm button text.
+
+  - Usage:
+
+    ```tsx
+    <FormInput
+      //.... Other Props
+      datePickerConfirmButtonTextStyle={{ color: "white" }}
+      //... Other Props
+    />
+    ```
+
     - For more details on the available styles, refer to the [react-native-ui-datepicker documentation](https://www.npmjs.com/package/react-native-ui-datepicker).
 
 ## Changelog
+
+### [1.9.3] - 2025-05-01
+
+- Added `datePickerConfirmButtonStyle` and `datePickerConfirmButtonTextStyle` props to allow users to customize the confirm button's style and text style in the date picker.
 
 ### [1.9.2] - 2025-05-01
 

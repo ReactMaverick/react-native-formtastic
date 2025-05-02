@@ -115,5 +115,7 @@ export type FormInputPropTypes = {
     datePickerProps?: any;
     datePickerStyles?: any;
     timeTextStyle?: TextStyle;
+    datePickerConfirmButtonStyle?: ViewStyle;
+    datePickerConfirmButtonTextStyle?: TextStyle;
 };
 //# sourceMappingURL=formInputPropTypes.d.ts.map

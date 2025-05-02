@@ -30,33 +30,35 @@ export type DatePickerModalPropTypes = {
     animationDuration?: number;
     hideConfirmButton?: boolean;
     theme?: 'light' | 'dark' | 'system';
-    selectedContainerStyle?: ViewStyle; // NEW
-    selectedTextStyle?: TextStyle; // NEW
-    todayContainerStyle?: ViewStyle; // NEW
-    todayTextStyle?: TextStyle; // NEW
-    weekDaysContainerStyle?: ViewStyle; // NEW
-    weekDaysTextStyle?: TextStyle; // NEW
-    yearContainerStyle?: ViewStyle; // NEW
-    yearTextStyle?: TextStyle; // NEW
-    activeYearContainerStyle?: ViewStyle; // NEW
-    activeYearTextStyle?: TextStyle; // NEW
-    selectedYearContainerStyle?: ViewStyle; // NEW
-    selectedYearTextStyle?: TextStyle; // NEW
-    monthContainerStyle?: ViewStyle; // NEW
-    monthTextStyle?: TextStyle; // NEW
-    selectedMonthContainerStyle?: ViewStyle; // NEW
-    selectedMonthTextStyle?: TextStyle; // NEW
-    datePickerLeftButtonStyle?: ViewStyle; // NEW
-    datePickerRightButtonStyle?: ViewStyle; // NEW
-    datePickerDayContainerStyle?: ViewStyle; // NEW
-    datePickerDayTextStyle?: TextStyle; // NEW
-    yearSelectorTextStyle?: TextStyle; // NEW
-    monthSelectorTextStyle?: TextStyle; // NEW
-    timeSelectorTextStyle?: TextStyle; // NEW
-    datePickerOutsideDayTextStyle?: TextStyle; // NEW
-    timePickerIndicatorStyle?: ViewStyle; // NEW
-    datePickerRangeStyle?: ViewStyle; // NEW
-    datePickerProps?: any; // NEW
-    datePickerStyles?: any; // NEW
-    timeTextStyle?: TextStyle; // NEW
+    selectedContainerStyle?: ViewStyle;
+    selectedTextStyle?: TextStyle;
+    todayContainerStyle?: ViewStyle;
+    todayTextStyle?: TextStyle;
+    weekDaysContainerStyle?: ViewStyle;
+    weekDaysTextStyle?: TextStyle;
+    yearContainerStyle?: ViewStyle;
+    yearTextStyle?: TextStyle;
+    activeYearContainerStyle?: ViewStyle;
+    activeYearTextStyle?: TextStyle;
+    selectedYearContainerStyle?: ViewStyle;
+    selectedYearTextStyle?: TextStyle;
+    monthContainerStyle?: ViewStyle;
+    monthTextStyle?: TextStyle;
+    selectedMonthContainerStyle?: ViewStyle;
+    selectedMonthTextStyle?: TextStyle;
+    datePickerLeftButtonStyle?: ViewStyle;
+    datePickerRightButtonStyle?: ViewStyle;
+    datePickerDayContainerStyle?: ViewStyle;
+    datePickerDayTextStyle?: TextStyle;
+    yearSelectorTextStyle?: TextStyle;
+    monthSelectorTextStyle?: TextStyle;
+    timeSelectorTextStyle?: TextStyle;
+    datePickerOutsideDayTextStyle?: TextStyle;
+    timePickerIndicatorStyle?: ViewStyle;
+    datePickerRangeStyle?: ViewStyle;
+    datePickerProps?: any;
+    datePickerStyles?: any;
+    timeTextStyle?: TextStyle;
+    datePickerConfirmButtonStyle?: ViewStyle;
+    datePickerConfirmButtonTextStyle?: TextStyle;
 };

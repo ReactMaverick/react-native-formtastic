@@ -64,5 +64,7 @@ export type DatePickerModalPropTypes = {
     datePickerProps?: any;
     datePickerStyles?: any;
     timeTextStyle?: TextStyle;
+    datePickerConfirmButtonStyle?: ViewStyle;
+    datePickerConfirmButtonTextStyle?: TextStyle;
 };
 //# sourceMappingURL=datePickerModalPropTypes.d.ts.map
